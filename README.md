@@ -112,5 +112,4 @@ An asynchronous, production-ready Python framework designed to monitor YouTube v
 
 Distributed under the \*\*MIT License\*\*.
 
-Developed with ❤️ by \*\*\[Sajad Kazemi](https://github.com/Sajadapp)\*\*
-
+Developed with ❤️ by **[Sajad Kazemi](https://github.com/Sajadapp)**
