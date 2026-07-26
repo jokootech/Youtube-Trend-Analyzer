@@ -1,0 +1,24 @@
+# ============================================================
+# YouTube Trend Analyzer & Viral Content Strategist Bot
+# Python 3.11+
+# ============================================================
+
+# --- Core async ---
+aiohttp>=3.9.5
+aiosqlite>=0.20.0
+
+# --- Configuration ---
+pydantic>=2.7.0
+pydantic-settings>=2.3.0
+python-dotenv>=1.0.1
+
+# --- Logging ---
+loguru>=0.7.2
+
+# --- LLM Providers (pick one; both listed for flexibility) ---
+# google-generativeai>=0.7.0   # optional: for direct Gemini SDK
+# openai>=1.35.0               # optional: for direct OpenAI SDK
+# NOTE: This project uses raw aiohttp calls to Gemini/OpenAI REST
+#       endpoints, so neither SDK is strictly required at runtime.
+
+# --- Utilities ---
