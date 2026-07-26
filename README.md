@@ -2,7 +2,7 @@
 
 
 
-An asynchronous, production-ready Python framework designed to monitor YouTube video trends in real-time, extract viral metrics, analyze underlying content strategies using LLMs (Gemini / DeepSeek via GapGPT), and generate rich HTML summary cards directly to Telegram.
+An asynchronous, production-ready Python framework designed to monitor YouTube video trends in real-time, extract viral metrics, analyze underlying content strategies using LLMs, and generate rich HTML summary cards directly to Telegram.
 
 
 
@@ -38,33 +38,67 @@ An asynchronous, production-ready Python framework designed to monitor YouTube v
 
 \---
 
-
-
 \## 🏗️ System Architecture
 
 
 
 \[ YouTube RSS / API ] ──► \[ Trend Scraper ] ──► \[ SQLite Cache ]
 
-│
+&#x20;                               │
 
-▼
+&#x20;                               ▼
 
-\[ LLM Engine ] ──► (Gemini / DeepSeek)
+&#x20;                      \[ LLM Engine ] ──► (Gemini / DeepSeek)
 
-│
+&#x20;                               │
 
-▼
+&#x20;                               ▼
 
-\[ Pydantic Validator ]
+&#x20;                     \[ Pydantic Validator ]
 
-│
+&#x20;                               │
 
-▼
+&#x20;                               ▼
 
-\[ Telegram Card Notifier ]
+&#x20;                   \[ Telegram Card Notifier ]
 
 
+
+\---
+
+\## ⚙️ Quick Start Guide
+
+
+
+\*\*1. Clone the Repository\*\*
+
+> git clone https://github.com/Sajadapp/Youtube-Trend-Analyzer.git
+
+> cd Youtube-Trend-Analyzer
+
+
+
+\*\*2. Set Up Virtual Environment \& Dependencies\*\*
+
+> python -m venv venv
+
+> venv\\Scripts\\activate
+
+> pip install -r requirements.txt
+
+
+
+\*\*3. Environment Configuration\*\*
+
+> cp .env.example .env
+
+\*(Fill in your keys inside the .env file)\*
+
+
+
+\*\*4. Run the Bot\*\*
+
+> python main.py --mode once
 
 
 
@@ -72,69 +106,11 @@ An asynchronous, production-ready Python framework designed to monitor YouTube v
 
 
 
-\## ⚙️ Quick Start Guide
+\## 📜 License
 
 
 
-\### 1. Clone the Repository
+Distributed under the \*\*MIT License\*\*.
 
-```bash
-
-git clone \[https://github.com/Sajadapp/Youtube-Trend-Analyzer.git](https://github.com/Sajadapp/Youtube-Trend-Analyzer.git)
-
-cd Youtube-Trend-Analyzer
-
-2\. Set Up Virtual Environment \& Dependencies
-
-Bash
-
-python -m venv venv
-
-\# On Windows:
-
-venv\\Scripts\\activate
-
-\# On Linux/macOS:
-
-source venv/bin/activate
-
-
-
-pip install -r requirements.txt
-
-3\. Environment Configuration
-
-Copy the template configuration file and update it with your actual credentials:
-
-
-
-Bash
-
-cp .env.example .env
-
-Fill in your YOUTUBE\_API\_KEY, TELEGRAM\_BOT\_TOKEN, TELEGRAM\_CHAT\_ID, and LLM key inside .env.
-
-
-
-4\. Run the Bot
-
-Bash
-
-\# Execute a single analysis run
-
-python main.py --mode once
-
-
-
-\# Run as a continuous monitoring service
-
-python main.py --mode scheduled
-
-📜 License
-
-Distributed under the MIT License. See LICENSE for more information.
-
-
-
-Developed with ❤️ by Sajad Kazemi
+Developed with ❤️ by \*\*\[Sajad Kazemi](https://github.com/Sajadapp)\*\*
 
