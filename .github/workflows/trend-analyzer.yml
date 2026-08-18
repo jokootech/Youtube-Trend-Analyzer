@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -23,12 +23,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install aiohttp-socks
 
       - name: Create environment file
         run: |
           cat > .env <<'EOF'
           HTTP_PROXY=
-
           APP_NAME=YouTube Trend Analyzer
 
           RUN_MODE=once
@@ -61,8 +61,6 @@ jobs:
           TOP_N_VIDEOS=5
           EOF
 
-      - name: Install dependencies
+      - name: Run analyzer
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install aiohttp-socks
+          python main.py --mode once
