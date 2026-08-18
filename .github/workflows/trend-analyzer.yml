@@ -29,6 +29,7 @@ jobs:
         run: |
           cat > .env <<'EOF'
           HTTP_PROXY=
+
           APP_NAME=YouTube Trend Analyzer
 
           RUN_MODE=once
@@ -39,6 +40,7 @@ jobs:
           LLM_PROVIDER=gemini
           ACTIVE_LLM_MODEL=gemini-2.5-flash
           ACTIVE_LLM_API_KEY=${{ secrets.ACTIVE_LLM_API_KEY }}
+          GEMINI_API_KEYS=${{ secrets.ACTIVE_LLM_API_KEY }}
 
           LLM_TEMPERATURE=0.3
           LLM_MAX_TOKENS=2048
