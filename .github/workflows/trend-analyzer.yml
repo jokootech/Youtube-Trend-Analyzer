@@ -29,24 +29,18 @@ jobs:
         run: |
           cat > .env <<'EOF'
           APP_NAME=YouTube Trend Analyzer
-
           RUN_MODE=once
           POLL_INTERVAL_MINUTES=60
           LOG_LEVEL=INFO
 
           HTTP_PROXY=
-          HTTPS_PROXY=
-          ALL_PROXY=
-          http_proxy=
-          https_proxy=
-          all_proxy=
 
           YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}
 
           LLM_PROVIDER=gemini
-          ACTIVE_LLM_MODEL=gemini-2.5-flash
-          ACTIVE_LLM_API_KEY=${{ secrets.ACTIVE_LLM_API_KEY }}
           GEMINI_API_KEYS=["${{ secrets.ACTIVE_LLM_API_KEY }}"]
+          GEMINI_MODEL=gemini-2.5-flash
+          GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai
 
           LLM_TEMPERATURE=0.3
           LLM_MAX_TOKENS=2048
@@ -54,7 +48,6 @@ jobs:
 
           TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
-
           TELEGRAM_PARSE_MODE=HTML
           TELEGRAM_DISABLE_WEB_PREVIEW=true
 
@@ -68,6 +61,15 @@ jobs:
           VIDEO_AGE_DAYS_MAX=2
           TOP_N_VIDEOS=5
           EOF
+
+      - name: Clear proxy environment
+        run: |
+          unset HTTP_PROXY
+          unset HTTPS_PROXY
+          unset ALL_PROXY
+          unset http_proxy
+          unset https_proxy
+          unset all_proxy
 
       - name: Run analyzer
         run: |
