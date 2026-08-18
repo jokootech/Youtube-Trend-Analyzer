@@ -1,0 +1,66 @@
+name: YouTube Trend Analyzer
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 */6 * * *"
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create environment file
+        run: |
+          cat > .env <<'EOF'
+          HTTP_PROXY=
+
+          APP_NAME=YouTube Trend Analyzer
+
+          RUN_MODE=once
+          LOG_LEVEL=INFO
+
+          YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}
+
+          LLM_PROVIDER=gemini
+          ACTIVE_LLM_MODEL=gemini-2.5-flash
+          ACTIVE_LLM_API_KEY=${{ secrets.ACTIVE_LLM_API_KEY }}
+
+          LLM_TEMPERATURE=0.3
+          LLM_MAX_TOKENS=2048
+          LLM_REQUEST_TIMEOUT=90
+
+          TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+
+          TELEGRAM_PARSE_MODE=HTML
+          TELEGRAM_DISABLE_WEB_PREVIEW=true
+
+          TARGET_TOPICS=["AI","ChatGPT","Gemini","Artificial Intelligence","AI Tools"]
+          TARGET_CHANNEL_IDS=[]
+
+          YOUTUBE_RSS_TIMEOUT=30
+          YOUTUBE_API_TIMEOUT=15
+          YOUTUBE_MAX_RESULTS=50
+          YOUTUBE_MAX_COMMENTS=20
+          VIDEO_AGE_DAYS_MAX=2
+          TOP_N_VIDEOS=5
+          EOF
+
+      - name: Run analyzer
+        run: |
+          python main.py --mode once
