@@ -61,6 +61,8 @@ jobs:
           TOP_N_VIDEOS=5
           EOF
 
-      - name: Run analyzer
+      - name: Install dependencies
         run: |
-          python main.py --mode once
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install aiohttp-socks
