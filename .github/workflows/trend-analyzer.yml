@@ -33,10 +33,13 @@ jobs:
           POLL_INTERVAL_MINUTES=60
           LOG_LEVEL=INFO
 
+          # No proxy on GitHub Actions
           HTTP_PROXY=
 
+          # YouTube
           YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}
 
+          # Gemini
           LLM_PROVIDER=gemini
           GEMINI_API_KEYS=["${{ secrets.ACTIVE_LLM_API_KEY }}"]
           GEMINI_MODEL=gemini-2.5-flash
@@ -46,19 +49,28 @@ jobs:
           LLM_MAX_TOKENS=2048
           LLM_REQUEST_TIMEOUT=90
 
+          # Telegram
           TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_PARSE_MODE=HTML
           TELEGRAM_DISABLE_WEB_PREVIEW=true
 
-          TARGET_TOPICS=["تراپی نوستالژیک","موسیقی جاز","موسیقی مفهومی","موسیقی تلفیقی"]
+          # Topics
+          TARGET_TOPICS=["AI","ChatGPT","Gemini","Artificial Intelligence","YouTube"]
+
+          # Monitor specific channels only if you have channel IDs
           TARGET_CHANNEL_IDS=[]
 
+          # YouTube scraping
           YOUTUBE_RSS_TIMEOUT=30
           YOUTUBE_API_TIMEOUT=15
           YOUTUBE_MAX_RESULTS=50
           YOUTUBE_MAX_COMMENTS=20
-          VIDEO_AGE_DAYS_MAX=2
+
+          # Wider window for initial testing
+          VIDEO_AGE_DAYS_MAX=7
+
+          # Number of videos to analyze
           TOP_N_VIDEOS=5
           EOF
 
@@ -70,6 +82,19 @@ jobs:
           unset http_proxy
           unset https_proxy
           unset all_proxy
+
+      - name: Show configuration status
+        run: |
+          echo "======================================"
+          echo "YouTube Trend Analyzer"
+          echo "======================================"
+          echo "LLM Provider: Gemini"
+          echo "LLM Model: gemini-2.5-flash"
+          echo "Proxy: disabled"
+          echo "Topics: AI, ChatGPT, Gemini, Artificial Intelligence, YouTube"
+          echo "Video age: 7 days"
+          echo "Top videos: 5"
+          echo "======================================"
 
       - name: Run analyzer
         run: |
