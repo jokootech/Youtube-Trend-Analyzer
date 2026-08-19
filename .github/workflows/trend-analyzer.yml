@@ -33,13 +33,10 @@ jobs:
           POLL_INTERVAL_MINUTES=60
           LOG_LEVEL=INFO
 
-          # No proxy on GitHub Actions
           HTTP_PROXY=
 
-          # YouTube
           YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}
 
-          # Gemini
           LLM_PROVIDER=gemini
           GEMINI_API_KEYS=["${{ secrets.ACTIVE_LLM_API_KEY }}"]
           GEMINI_MODEL=gemini-2.5-flash
@@ -49,28 +46,20 @@ jobs:
           LLM_MAX_TOKENS=2048
           LLM_REQUEST_TIMEOUT=90
 
-          # Telegram
           TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_PARSE_MODE=HTML
           TELEGRAM_DISABLE_WEB_PREVIEW=true
 
-          # Topics
           TARGET_TOPICS=["AI","ChatGPT","Gemini","Artificial Intelligence","YouTube"]
-
-          # Monitor specific channels only if you have channel IDs
           TARGET_CHANNEL_IDS=[]
 
-          # YouTube scraping
           YOUTUBE_RSS_TIMEOUT=30
           YOUTUBE_API_TIMEOUT=15
           YOUTUBE_MAX_RESULTS=50
           YOUTUBE_MAX_COMMENTS=20
 
-          # Wider window for initial testing
           VIDEO_AGE_DAYS_MAX=7
-
-          # Number of videos to analyze
           TOP_N_VIDEOS=5
           EOF
 
@@ -83,18 +72,57 @@ jobs:
           unset https_proxy
           unset all_proxy
 
-      - name: Show configuration status
+      - name: Check YouTube API key
+        env:
+          YOUTUBE_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
-          echo "======================================"
+          if [ -z "$YOUTUBE_KEY" ]; then
+            echo "ERROR: YOUTUBE_API_KEY is EMPTY"
+            exit 1
+          else
+            echo "OK: YOUTUBE_API_KEY exists"
+          fi
+
+      - name: Check Gemini API key
+        env:
+          GEMINI_KEY: ${{ secrets.ACTIVE_LLM_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_KEY" ]; then
+            echo "ERROR: ACTIVE_LLM_API_KEY is EMPTY"
+            exit 1
+          else
+            echo "OK: ACTIVE_LLM_API_KEY exists"
+          fi
+
+      - name: Check Telegram credentials
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -z "$TELEGRAM_TOKEN" ]; then
+            echo "ERROR: TELEGRAM_BOT_TOKEN is EMPTY"
+            exit 1
+          fi
+
+          if [ -z "$TELEGRAM_CHAT" ]; then
+            echo "ERROR: TELEGRAM_CHAT_ID is EMPTY"
+            exit 1
+          fi
+
+          echo "OK: Telegram credentials exist"
+
+      - name: Show configuration
+        run: |
+          echo "========================================"
           echo "YouTube Trend Analyzer"
-          echo "======================================"
+          echo "========================================"
           echo "LLM Provider: Gemini"
           echo "LLM Model: gemini-2.5-flash"
+          echo "Gemini API: Google official OpenAI-compatible API"
           echo "Proxy: disabled"
-          echo "Topics: AI, ChatGPT, Gemini, Artificial Intelligence, YouTube"
           echo "Video age: 7 days"
           echo "Top videos: 5"
-          echo "======================================"
+          echo "========================================"
 
       - name: Run analyzer
         run: |
